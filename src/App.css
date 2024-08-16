@@ -1,3 +1,8 @@
+.ant-select-selector {
+  background: transparent !important;
+  border: 0 !important;
+}
+
 .vh-100 {
   height: 100vh;
 }
@@ -10,13 +15,16 @@
 .App-grid {
   display: grid;
   grid-template-areas:
-    /* none */
     "header header header"
     "patients diagnosisHistory patientCard"
+    "patients diagnosticsList patientCard"
+    "patients diagnosticsList labResults"
     "patients diagnosticsList labResults";
   grid-template-columns: 1.5fr 3fr 1.5fr;
-  grid-template-rows: 0.5fr 3fr 1fr;
-  gap: 35px;
+  /* grid-template-rows: 0.5fr 3fr 1fr 1fr 1fr; */
+  /* grid-auto-rows: min-content; */
+  grid-auto-rows: minmax(min-content, auto);
+  gap: 20px;
 }
 
 .header {
@@ -38,43 +46,59 @@
   grid-area: labResults;
 }
 
-/* **************************************************** */
-
-/* .App {
-  text-align: center;
+.header,
+.patients,
+.diagnosis-history,
+.patient-card,
+.diagnostics-list,
+.lab-results {
+  overflow: auto;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.diagHx-2 {
+  display: grid;
+  grid-template-areas: "respRate temp heartRate";
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+}
+.diagHx-2 > div {
+  border-radius: 12px;
+}
+.resp-rate {
+  grid-area: respRate;
+  background: var(--box1-color);
+}
+.temp {
+  grid-area: temp;
+  background: var(--box2-color);
+}
+.heart-rate {
+  grid-area: heartRate;
+  background: var(--box3-color);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.blood-pressure {
+  background: var(--blood-pressure-bg);
+  border-radius: 12px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.diagHx-2-value {
+  font-size: 22px;
+  font-weight: bold;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-action {
+  background: var(--active-color) !important;
+  border-radius: 35px !important;
+  padding: 11px 40px;
+  border: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
+.selected-patient {
+  background: var(--selected-patient-bg);
+}
+
+.selected-lab_result {
+  background: var(--selected-result-bg);
+}
