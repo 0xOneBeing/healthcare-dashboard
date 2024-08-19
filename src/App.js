@@ -1,6 +1,6 @@
 import "./App.css";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 
 import { Line } from "react-chartjs-2";
@@ -14,23 +14,8 @@ import {
   Tooltip,
 } from "chart.js";
 
-import { Button, Select } from "antd";
-import {
-  CaretDownOutlined,
-  CaretUpOutlined,
-  DownloadOutlined,
-  EllipsisOutlined,
-  MoreOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
-
-import logo from "./assets/images/logo.svg";
-
-import homeIcon from "./assets/images/home.svg";
-import groupIcon from "./assets/images/group.svg";
-import calendarTodayIcon from "./assets/images/calendar_today.svg";
-import chatBubbleIcon from "./assets/images/chat_bubble.svg";
-import creditCardIcon from "./assets/images/credit_card.svg";
+import { Select } from "antd";
+import { CaretDownOutlined, CaretUpOutlined } from "@ant-design/icons";
 
 import userProfilePic from "./assets/images/gp.png";
 
@@ -42,6 +27,12 @@ import dobIcon from "./assets/images/BirthIcon.svg";
 import phoneIcon from "./assets/images/PhoneIcon.svg";
 import femaleIcon from "./assets/images/FemaleIcon.svg";
 import insuranceIcon from "./assets/images/InsuranceIcon.svg";
+import Header from "./components/Header/Header";
+import PatientsList from "./components/PatientsList/PatientsList";
+import LabResults from "./components/LabResults/LabResults";
+import DiagnosticsList from "./components/DiagnosticsList/DiagnosticsList";
+import PatientCard from "./components/PatientCard/PatientCard";
+import DiagnosisHistory from "./components/DiagnosisHistory/DiagnosisHistory";
 
 function App() {
   const [pxData, setPxData] = useState([]);
@@ -77,11 +68,15 @@ function App() {
 
   // const [selectedPx, setSelectedPx] = useState("Jessica Taylor");
   const selectedPx = "Jessica Taylor";
+  const handleSelectedPx = () => {
+    console.log("Selected Patient: ", selectedPx);
+  };
   const [selectedPatientRecord, setSelectedPatientRecord] = useState(null);
   // const [selectedLabResult, setSelectedLabResult] = useState("CT Scans");
   const selectedLabResult = "CT Scans";
-
-  const noRef = null;
+  const handleSelectedLabResult = () => {
+    console.log("Selected lab result: ", selectedLabResult);
+  };
 
   const caretAndLevels = (levels) => {
     if (levels) {
@@ -224,115 +219,13 @@ function App() {
       </Helmet>
 
       <div className="container-fluid App-grid p-3 pb-5 m-0 vh-100">
-        <header className="header border-rounded App-card d-flex justify-content-between align-items-center">
-          <img src={logo} alt="Logo" />
-          <ul className="d-flex p-0 m-0 list-unstyled">
-            <li className="py-2 px-3">
-              <a href={noRef} className="d-flex align-items-center nav-link">
-                <img className="me-2" src={homeIcon} alt="HomeIcon" />
-                Overview
-              </a>
-            </li>
-            <li className="py-2 px-3 active-li-link">
-              <a href={noRef} className="d-flex align-items-center nav-link">
-                <img className="me-2" src={groupIcon} alt="PxIcon" />
-                Patients
-              </a>
-            </li>
-            <li className="py-2 px-3">
-              <a href={noRef} className="d-flex align-items-center nav-link">
-                <img className="me-2" src={calendarTodayIcon} alt="HomeIcon" />
-                Schedule
-              </a>
-            </li>
-            <li className="py-2 px-3">
-              <a href={noRef} className="d-flex align-items-center nav-link">
-                <img className="me-2" src={chatBubbleIcon} alt="HomeIcon" />
-                Message
-              </a>
-            </li>
-            <li className="py-2 px-3">
-              <a href={noRef} className="d-flex align-items-center nav-link">
-                <img className="me-2" src={creditCardIcon} alt="HomeIcon" />
-                Transactions
-              </a>
-            </li>
-          </ul>
-          <div className="profile d-flex align-items-center">
-            <img
-              className="me-3"
-              width={"44"}
-              src={userProfilePic}
-              alt="user_profile_pic"
-            />
-            <div className="me-2">
-              <p className="m-0 bold">Dr. Jose Simmons</p>
-              <small className="m-0">General Practitioner</small>
-            </div>
-            <div className="d-flex align-items-center">
-              <Button icon={<SettingOutlined />} type="ghost" />
-              <Button icon={<MoreOutlined />} type="ghost" />
-            </div>
-          </div>
-        </header>
+        <Header />
 
-        <aside className="patients border-rounded App-card">
-          <p className="heading">Patients</p>
-          <div className="patients-list mb-3">
-            <ul className="list-unstyled">
-              {pxData?.map((patient, index) => (
-                <li
-                  key={index}
-                  className={
-                    patient?.name === selectedPx
-                      ? `selected-patient p-3 mb-2`
-                      : `p-3 mb-2`
-                  }
-                >
-                  <div className="patient d-flex align-items-center justify-content-between">
-                    <div className="d-flex">
-                      <img
-                        className="me-3"
-                        width={"44"}
-                        src={patient?.profile_picture}
-                        alt="user_profile_pic"
-                      />
-                      <div className="me-2">
-                        <p className="m-0 bold">{patient?.name || "N'A"}</p>
-                        <small className="m-0">
-                          {patient?.gender || "N/A"},&nbsp;
-                          {patient?.age || "N/A"}
-                        </small>
-                      </div>
-                    </div>
-                    <div className="d-flex align-items-center">
-                      <Button icon={<EllipsisOutlined />} type="ghost" />
-                    </div>
-                  </div>
-                </li>
-              ))}
-              {/* <li className="mb-4">
-                <div className="patient d-flex align-items-center justify-content-between">
-                  <div className="d-flex">
-                    <img
-                      className="me-3"
-                      width={"44"}
-                      src={userProfilePic}
-                      alt="user_profile_pic"
-                    />
-                    <div className="me-2">
-                      <p className="m-0 bold">Dr. Jose Simmons</p>
-                      <small className="m-0">Female, 29</small>
-                    </div>
-                  </div>
-                  <div className="d-flex align-items-center">
-                    <Button icon={<EllipsisOutlined />} type="ghost" />
-                  </div>
-                </div>
-              </li> */}
-            </ul>
-          </div>
-        </aside>
+        <PatientsList
+          patientData={pxData}
+          selectedPatient={selectedPx}
+          onSelectPatient={handleSelectedPx}
+        />
 
         <section className="diagnosis-history border-rounded App-card">
           <p className="heading mb-4">Diagnosis History</p>
@@ -421,141 +314,29 @@ function App() {
           </div>
         </section>
 
-        <aside className="patient-card border-rounded App-card">
-          <p className="heading d-none">Patient Card</p>
-          <div className="patient-card-content">
-            <div className="my-3 text-center">
-              <img
-                src={
-                  selectedPatientRecord?.profile_picture
-                    ? selectedPatientRecord?.profile_picture
-                    : userProfilePic
-                }
-                alt="Px Card pic"
-                width={200}
-                className="text-center mb-3 mt-3"
-              />
-            </div>
-            <p className="patient-name heading-2 text-center">
-              {selectedPatientRecord?.name || "N/A"}
-            </p>
-            <div className="patient-date_of_birth d-flex align-items-center my-3">
-              <img
-                className="patient_card_icon me-2"
-                src={dobIcon}
-                alt="Date of birth"
-              />
-              <div>
-                <p className="m-0">Date of birth</p>
-                <p className="m-0 bold">
-                  {selectedPatientRecord?.date_of_birth || "N/A"}
-                </p>
-              </div>
-            </div>
-            <div className="patient-gender d-flex align-items-center my-3">
-              <img
-                className="patient_card_icon me-2"
-                src={femaleIcon}
-                alt="Gender"
-              />
-              <div>
-                <p className="m-0">Gender</p>
-                <p className="m-0 bold">
-                  {selectedPatientRecord?.gender || "N/A"}
-                </p>
-              </div>
-            </div>
-            <div className="patient-contact-info d-flex align-items-center my-3">
-              <img
-                className="patient_card_icon me-2"
-                src={phoneIcon}
-                alt="Contact Info"
-              />
-              <div>
-                <p className="m-0">Contact Info.</p>
-                <p className="m-0 bold">
-                  {selectedPatientRecord?.phone_number || "N/A"}
-                </p>
-              </div>
-            </div>
-            <div className="patient-emergency-contact d-flex align-items-center my-3">
-              <img
-                className="patient_card_icon me-2"
-                src={phoneIcon}
-                alt="Emergency Contacts"
-              />
-              <div>
-                <p className="m-0">Emergency Contacts</p>
-                <p className="m-0 bold">
-                  {selectedPatientRecord?.emergency_contact || "N/A"}
-                </p>
-              </div>
-            </div>
-            <div className="patient-insurance d-flex align-items-center my-3">
-              <img
-                className="patient_card_icon me-2"
-                src={insuranceIcon}
-                alt="Insurance Provider"
-              />
-              <div>
-                <p className="m-0">Insurance Provider</p>
-                <p className="m-0 bold">
-                  {selectedPatientRecord?.insurance_type || "N/A"}
-                </p>
-              </div>
-            </div>
-            <div className="text-center mt-5">
-              <button className="btn-action btn-md bold" type="button">
-                Show All Information
-              </button>
-            </div>
-          </div>
-        </aside>
+        <DiagnosisHistory
+          selectedPatientRecord={selectedPatientRecord}
+          respPic={respPic}
+          tempPic={tempPic}
+          heartPic={heartPic}
+        />
 
-        <section className="diagnostics-list border-rounded App-card">
-          <p className="heading">Diagnostics List</p>
-          <table className="table table-borderless p-3">
-            <thead className="table-light">
-              <tr>
-                <th scope="col">Problem/Diagnosis</th>
-                <th scope="col">Description</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {selectedPatientRecord?.diagnostic_list?.map((dx_list, index) => (
-                <tr key={index}>
-                  <td>{dx_list?.name}</td>
-                  <td>{dx_list?.description}</td>
-                  <td>{dx_list?.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </section>
+        <PatientCard
+          patientRecord={selectedPatientRecord}
+          defaultProfilePic={userProfilePic}
+          dobIcon={dobIcon}
+          femaleIcon={femaleIcon}
+          phoneIcon={phoneIcon}
+          insuranceIcon={insuranceIcon}
+        />
 
-        <section className="lab-results border-rounded App-card">
-          <p className="heading">Lab Results</p>
-          <div className="patients-list mb-3">
-            <ul className="list-unstyled">
-              {selectedPatientRecord?.lab_results?.map((result, index) => (
-                <li
-                  className={
-                    result === selectedLabResult
-                      ? `selected-lab_result p-2`
-                      : "p-2"
-                  }
-                  key={index}
-                >
-                  <div className="patient d-flex align-items-center justify-content-between">
-                    <p className="m-0">{result}</p>
-                    <Button icon={<DownloadOutlined />} type="ghost" />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        <DiagnosticsList patientRecord={selectedPatientRecord} />
+
+        <LabResults
+          patientRecord={selectedPatientRecord}
+          selectedResult={selectedLabResult}
+          onSelectResult={handleSelectedLabResult}
+        />
       </div>
     </div>
   );
